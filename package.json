@@ -7,8 +7,12 @@
     "start": "parcel index.html public/**/*.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "broeserlist": [
-    "last 3 Chrome verions"
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 chrome versions",
+    "last 3 opera versions",
+    "last 3 ios_saf versions",
+    "last 3 safari versions"
   ],
   "author": "Antonio Hernández <antoniohernandez95@gmail.com>",
   "license": "MIT",

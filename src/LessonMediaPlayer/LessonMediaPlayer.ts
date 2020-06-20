@@ -4,10 +4,12 @@ class LessonMediaPlayer {
   container: HTMLElement;
   controlsContainer: HTMLElement;
   playButton: HTMLElement;
-  spanishSubsButton: HTMLElement;
-  englishSubsButton: HTMLElement;
-  settingsButton: HTMLElement;
-  progressionBar: HTMLElement;
+  spanishSubsButton: HTMLButtonElement;
+  englishSubsButton: HTMLButtonElement;
+  settingsButton: HTMLButtonElement;
+
+  progressionWrap: HTMLElement;
+  progressionRange: HTMLInputElement;
   volumeControl: HTMLInputElement;
 
   constructor(config: any) {
@@ -36,15 +38,30 @@ class LessonMediaPlayer {
     this.container.appendChild(this.controlsContainer);
 
     /* --------------------------- Progresion Bar ------------------------------- */
-    this.progressionBar = document.createElement('div');
-    this.progressionBar.classList.add('Lesson__progression');
+    this.progressionWrap = document.createElement('div');
+    this.progressionWrap.classList.add('Lesson__progression-wrap');
 
-    this.progressionBar.innerHTML = `<div id="progression"></div>`;
+    this.progressionRange = document.createElement('input');
+    this.progressionRange.type = 'range';
+    this.progressionRange.classList.add('Lesson__progression-range');
+    this.progressionRange.min = '0';
+    this.progressionRange.max = '100';
+    this.progressionRange.step = '0.1';
+    this.progressionRange.value = `${this.media.currentTime}`;
+    this.changeRange(this.progressionRange.value);
+
+    this.progressionWrap.appendChild(this.progressionRange);
+
+    this.progressionRange.onmouseover = () => this.addLoaded();
+    this.progressionRange.oninput = () => {
+      this.changeTime(this.progressionRange.value);
+      this.changeRange(this.progressionRange.value);
+    };
 
     document
       .querySelector('#controls')
       .insertBefore(
-        this.progressionBar,
+        this.progressionWrap,
         document.querySelector('.Lesson__player-controls'),
       );
 
@@ -80,6 +97,7 @@ class LessonMediaPlayer {
     this.spanishSubsButton = document.createElement('button');
     this.spanishSubsButton.classList.add('Lesson__player-button');
     this.spanishSubsButton.innerHTML = 'Spanish';
+    this.spanishSubsButton.disabled = true;
 
     document
       .querySelector('.Lesson__player-controls')
@@ -89,6 +107,7 @@ class LessonMediaPlayer {
     this.englishSubsButton = document.createElement('button');
     this.englishSubsButton.classList.add('Lesson__player-button');
     this.englishSubsButton.innerHTML = 'English';
+    this.englishSubsButton.disabled = true;
 
     document
       .querySelector('.Lesson__player-controls')
@@ -98,6 +117,7 @@ class LessonMediaPlayer {
     this.settingsButton = document.createElement('button');
     this.settingsButton.classList.add('Lesson__player-button');
     this.settingsButton.innerHTML = '\u23E3';
+    this.settingsButton.disabled = true;
 
     document
       .querySelector('.Lesson__player-controls')
@@ -135,26 +155,36 @@ class LessonMediaPlayer {
   }
 
   progression(togglePlay: boolean) {
-    const elem = document.getElementById('progression');
-
     let intervalId = setInterval(
-      () => this.frame(elem, intervalId, togglePlay),
+      () => this.frame(intervalId, togglePlay),
       100,
     );
   }
 
-  private frame(
-    elem: HTMLElement,
-    intervalId: any,
-    tooglePlay: boolean,
-  ) {
-    let width = (this.media.currentTime / this.media.duration) * 100;
+  addLoaded() {
+    this.progressionWrap.classList.add('loaded');
+  }
 
-    if (!tooglePlay || width >= 100) {
+  changeRange(value: string) {
+    this.progressionRange.style.background = `linear-gradient(to right, #cc181e 0%, #cc181e ${value}%, #777 0%, #777 ${value}%, #444 0%, #444 88%)`;
+  }
+
+  changeTime(value: string) {
+    this.media.currentTime =
+      (Number(value) / 100) * this.media.duration;
+  }
+
+  private frame(intervalId: any, tooglePlay: boolean) {
+    const actualPercent =
+      (this.media.currentTime / this.media.duration) * 100;
+    if (
+      !tooglePlay ||
+      this.media.currentTime >= this.media.duration
+    ) {
       clearInterval(intervalId);
     } else {
-      width = (this.media.currentTime / this.media.duration) * 100;
-      elem.style.width = width + '%';
+      this.progressionRange.value = `${actualPercent}`;
+      this.changeRange(`${actualPercent}`);
     }
   }
 

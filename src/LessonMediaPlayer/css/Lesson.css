@@ -1,3 +1,7 @@
+* {
+  border-width: 0;
+}
+
 .Lesson__player-container {
   position: relative;
 }
@@ -59,20 +63,67 @@
   justify-content: space-between;
 }
 
-.Lesson__progression {
-  width: 100%;
+.Lesson__progression-wrap {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(200, 200, 200, 0);
+  z-index: 1;
+}
+
+/* .Lesson__progression-wrap:hover {
+  height: 10px;
+} */
+
+.Lesson__progression-range {
+  -webkit-appearance: none;
+  background: linear-gradient(
+    to right,
+    #cc181e 0%,
+    #cc181e 50%,
+    #777 0%,
+    #777 62.5%,
+    #444 0%,
+    #444 88%
+  );
+  cursor: pointer;
   height: 3px;
-  background-color: #808080;
+  margin: 0;
+  transition: 0.1s ease-in;
+  vertical-align: bottom;
+  width: 100%;
 }
 
-.Lesson__progression:hover {
+.Lesson__progression-wrap:hover .Lesson__progression-range,
+.Lesson__progression-wrap.hover .Lesson__progression-range {
   height: 10px;
 }
 
-#progression {
-  width: 0.1%;
-  height: 10px;
-  background-color: #ff0000;
+.Lesson__progression-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #aeaeae;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 5px #eaeaea;
+  height: 0;
+  transition: 0.1s ease-in;
+  width: 0;
+}
+
+.Lesson__progression-wrap:hover
+  .Lesson__progression-range::-webkit-slider-thumb,
+.Lesson__progression-wrap.hover
+  .Lesson__progression-range::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+}
+
+.Lesson__progression-loaded .Lesson__progression-range,
+.Lesson__progression-loaded
+  .Lesson__progression-range::-webkit-slider-thumb {
+  transition: 0.1s ease-in;
+}
+
+:focus {
+  outline: none;
 }
 
 .Lesson__player-button {
