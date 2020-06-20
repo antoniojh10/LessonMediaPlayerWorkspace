@@ -1,0 +1,84 @@
+.Lesson__player-container {
+  position: relative;
+}
+
+.Lesson__player-layout {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
+
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  background: linear-gradient(
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.7)
+  );
+}
+
+.Lesson__played {
+  opacity: 0;
+}
+
+.Lesson__paused {
+  opacity: 0.5;
+}
+
+.Lesson__paused:hover {
+  opacity: 1;
+}
+
+.Lesson__player-layout:hover {
+  opacity: 1;
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.Lesson__player-controls {
+  height: 40px;
+  background-color: #030303;
+  color: #eeeeee;
+  width: 100%;
+  padding: 0 10px;
+  align-items: center;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.Lesson__progression {
+  width: 100%;
+  height: 3px;
+  background-color: #808080;
+}
+
+.Lesson__progression:hover {
+  height: 10px;
+}
+
+#progression {
+  width: 0.1%;
+  height: 10px;
+  background-color: #ff0000;
+}
+
+.Lesson__player-button {
+  cursor: pointer;
+}
+
+.Lesson__play {
+  width: 40px;
+}
