@@ -14,6 +14,13 @@ body {
     sans-serif;
 }
 
+h1.lesson-icon {
+  font-family: 'Mr Dafoe', cursive;
+  text-shadow: 5px 0 0 #fff, -5px 0 0 #fff, 0 5px 0 #fff,
+    0 -5px 0 #fff, 3px 3px #fff, -3px -3px 0 #fff, 3px -3px 0 #fff,
+    -3px 3px 0 #fff;
+}
+
 .main-container {
   margin: 0 auto;
   display: flex;
@@ -21,7 +28,6 @@ body {
   flex-direction: column;
   justify-content: center;
   max-width: 720px;
-  max-height: 405px;
 }
 
 .movie {
