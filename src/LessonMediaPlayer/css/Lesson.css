@@ -82,3 +82,7 @@
 .Lesson__play {
   width: 40px;
 }
+
+.Lesson__volume-control {
+  width: 15%;
+}

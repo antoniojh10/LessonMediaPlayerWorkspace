@@ -8,6 +8,7 @@ class LessonMediaPlayer {
   englishSubsButton: HTMLElement;
   settingsButton: HTMLElement;
   progressionBar: HTMLElement;
+  volumeControl: HTMLInputElement;
 
   constructor(config: any) {
     this.media = config.element;
@@ -20,8 +21,6 @@ class LessonMediaPlayer {
   private initPlayer() {
     this.container = document.createElement('div');
     this.container.classList.add('Lesson__player-container');
-
-    this.container.addEventListener('click', () => this.togglePlay());
     this.media.parentNode.insertBefore(this.container, this.media);
     this.container.appendChild(this.media);
   }
@@ -55,10 +54,27 @@ class LessonMediaPlayer {
     this.playButton.classList.add('Lesson__player-button');
     this.playButton.classList.add('Lesson__play');
     this.playButton.innerHTML = '\u25B6';
+    this.playButton.onclick = () => this.togglePlay();
 
     document
       .querySelector('.Lesson__player-controls')
       .appendChild(this.playButton);
+
+    /* ----------------------------- Volume Control ----------------------------- */
+    this.volumeControl = document.createElement('input');
+    this.volumeControl.classList.add('Lesson__volume-control');
+    this.volumeControl.type = 'range';
+    this.volumeControl.min = '0';
+    this.volumeControl.max = '100';
+    this.volumeControl.step = '1';
+    this.volumeControl.onchange = () =>
+      this.changeVolume(this.volumeControl.value);
+    this.volumeControl.oninput = () =>
+      this.changeVolume(this.volumeControl.value);
+
+    document
+      .querySelector('.Lesson__player-controls')
+      .appendChild(this.volumeControl);
 
     /* --------------------- Spanish Subtitles Button --------------------------- */
     this.spanishSubsButton = document.createElement('button');
@@ -96,25 +112,25 @@ class LessonMediaPlayer {
 
   play() {
     this.media.play();
+    this.playButton.innerHTML = '\u23F8';
+    this.controlsContainer.classList.remove('Lesson__paused');
+    this.controlsContainer.classList.add('Lesson__played');
     this.progression(true);
   }
 
   pause() {
     this.media.pause();
+    this.playButton.innerHTML = '\u25B6';
+    this.controlsContainer.classList.remove('Lesson__played');
+    this.controlsContainer.classList.add('Lesson__paused');
     this.progression(false);
   }
 
   togglePlay() {
     if (!this.media.paused) {
       this.pause();
-      this.playButton.innerHTML = '\u25B6';
-      this.controlsContainer.classList.remove('Lesson__played');
-      this.controlsContainer.classList.add('Lesson__paused');
     } else {
       this.play();
-      this.playButton.innerHTML = '\u23F8';
-      this.controlsContainer.classList.remove('Lesson__paused');
-      this.controlsContainer.classList.add('Lesson__played');
     }
   }
 
@@ -140,6 +156,10 @@ class LessonMediaPlayer {
       width = (this.media.currentTime / this.media.duration) * 100;
       elem.style.width = width + '%';
     }
+  }
+
+  private changeVolume(value: string) {
+    this.media.volume = Number(value) / 100;
   }
 }
 

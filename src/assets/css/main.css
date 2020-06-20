@@ -19,6 +19,7 @@ h1.lesson-icon {
   text-shadow: 5px 0 0 #fff, -5px 0 0 #fff, 0 5px 0 #fff,
     0 -5px 0 #fff, 3px 3px #fff, -3px -3px 0 #fff, 3px -3px 0 #fff,
     -3px 3px 0 #fff;
+  margin: 0;
 }
 
 .main-container {
